@@ -1,3 +1,4 @@
+require('console.table', {force: true})
 var mysql = require("mysql");
 const inquirer = require("inquirer");
 
@@ -53,8 +54,8 @@ let employeeQuestions = [
 var con = mysql.createConnection({
   host: "localhost",
   port: 3306,
-  user: "YOUR USER ID",
-  password: "YOUR PASSWORD",
+  user: "root",
+  password: "root",
   database: "employee_tracker_db",
   multipleStatements: true,
 });
@@ -65,7 +66,7 @@ con.connect((err) => {
   console.log("Connected");
 
   let sql =
-    "SELECT * FROM department; SELECT * FROM role; SELECT * FROM employee";
+    "SELECT * FROM department; SELECT * FROM role; SELECT * FROM employee;";
   con.query(sql, (err, row) => {
     if (err) throw err;
     for (dep of row[0]) {
@@ -115,6 +116,7 @@ const start = () => {
       if (answer.action == "View departments") {
         let sql = "SELECT * FROM department;";
         con.query(sql, (err, row) => {
+          console.log('query departaments')
           if (err) throw err;
           console.table(row);
           start();
